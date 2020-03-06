@@ -3,5 +3,5 @@
 
 # The VNC username
 username: vnc
-# The VNC password
-password: vnc_password
+# Generate a random VNC password and save it to /tmp
+password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"

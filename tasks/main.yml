@@ -21,11 +21,12 @@
       paths:
         - "vars"
 
-- name: Install Xfce desktop environment and TigerVNC server
+- name: Install TigerVNC server
   package:
     name:
       "{{ package_names }}"
 
+# Does this go here?  Can this be generalized?
 - name: Disable screen locking
   file:
     path: /etc/xdg/autostart/light-locker.desktop
@@ -54,14 +55,6 @@
     group: "{{ username }}"
     mode: 0600
 
-- name: Deploy xstartup configuration file for VNC user
-  copy:
-    src: xstartup
-    dest: /home/{{ username }}/.vnc/
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0744
-
 - name: Set up VNC as a systemd service
   template:
     src: vncserver@.service
@@ -74,10 +67,9 @@
   when:
     - ansible_service_mgr == "systemd"
 
-- name: Start VNC systemd service and enable it to start on boot
+- name: Enable VNC systemd service
   systemd:
     name: "vncserver@1.service"
-    state: started
     enabled: true
   when:
     - ansible_service_mgr == "systemd"

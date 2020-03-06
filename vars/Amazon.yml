@@ -1,5 +1,5 @@
 ---
-# vars file for RedHat
+# vars file for Amazon Linux
 
 # The TigerVNC package names
 package_names:
