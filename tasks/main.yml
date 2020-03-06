@@ -67,10 +67,9 @@
   when:
     - ansible_service_mgr == "systemd"
 
-- name: Start VNC systemd service and enable it to start on boot
+- name: Enable VNC systemd service
   systemd:
     name: "vncserver@1.service"
-    state: started
     enabled: true
   when:
     - ansible_service_mgr == "systemd"
