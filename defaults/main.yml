@@ -4,4 +4,4 @@
 # The VNC username
 username: vnc
 # Generate a random VNC password and save it to /tmp
-password: "{{ lookup('password', '/tmp/neo4j_password.txt') }}"
+password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"
