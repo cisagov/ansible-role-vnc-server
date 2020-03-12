@@ -7,23 +7,49 @@ Type=simple
 User={{ username }}
 PIDFile=/home/{{ username }}/.vnc/%H%i.pid
 ExecStartPre=/bin/sh -c "/usr/bin/vncserver -kill :%i > /dev/null 2>&1 || :"
-# Guacamole prefers to connect to the VNC server with TLSVnc security,
-# however that resulted in frequent disconnections of the VNC session
-# with errors like the following (from /home/vnc/.vnc/ip-*:1.log):
-#    Connections: closed: 10.10.50.20::53496
-#                 (readTLS: (unknown error code) (384))
-#     TLS:         TLS session wasn't terminated gracefully
-# The root cause may be:
-# https://issues.apache.org/jira/browse/GUACAMOLE-414 However, the fix
-# for that issue has not yet made it's way to the official Guacamole
-# docker image, which is what we use.  Until that happens, our
-# workaround is to force the VNC server to not accept authentication
-# via TLS ("TLSVnc"), and only accept "VncAuth".  This is accomplished
-# by adding "-SecurityType VncAuth" as a startup parameter to
-# vncserver in the systemd service file.
+# We are currently testing the latest 1.1.0 Guacamole images
+# (guacamole and guacd), and we are still seeing sporadic VNC
+# disconnections by Guacamole (as described in
+# https://github.com/cisagov/pca-gophish-composition-packer/pull/#1)
+# when we do not start the VNC server with -SecurityType VncAuth (to
+# disable the TLSVnc authentication).
+#
+# In the Guacamole PR with the potential fix for this issue, they state:
+#
+# Note that support for these callbacks was released in
+# LibVNCServer/Client 0.9.11, so it will only work against 0.9.11 or
+# later - the bug documented in GUACAMOLE-414 will still be present
+# when using libvncserver/client prior to 0.9.11.
+#
+# We should be fine on that front, since our VNC server host is
+# running with libvncserver version 0.9.12:
+#
+# dpkg -l | grep libvncserver
+# ii  libvncserver1:amd64  0.9.12+dfsg-8  amd64  API to write one's own VNC server
+#
+# Note that the error message in the VNC server is slightly different now:
+#
+# VNCSConnST:  closing 10.224.1.13::60288: readTLS: Decryption has failed. (-24)
+# ...
+# TLS:         TLS session wasn't terminated gracefully
+#
+# Here is what it looks like in the guacd Docker container log:
+#
+# guacd | guacd[567]: ERROR:	Error handling message from VNC server.
+# guacd | guacd[567]: INFO:	Internal VNC client disconnected
+#
+# I see two possibilities:
+#
+# * Fairly unlikely: The Guacamole fix that was made back in April
+#   2019 has not made its way into the Docker image created on
+#   Jan. 29, 2020.
+# * More likely: There is an additional issue going on here that we
+#   are not aware of.
+# * For now, we will continue to run without using TLSVnc
+#   authentication.
 #
 # Reminder to get rid of this in the future:
-#   https://github.com/cisagov/pca-gophish-composition-packer/issues/2
+#   https://github.com/cisagov/ansible-role-vnc-server/issues/2
 ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
 ExecStop=/usr/bin/vncserver -kill :%i
 
