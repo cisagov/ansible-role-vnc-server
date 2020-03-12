@@ -64,6 +64,14 @@
 # Note that Guacamole (guacd, as of v.1.1.0) currently only supports
 # RSA keys.
 #
+- name: Create .ssh directory for VNC user
+  file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
 - name: Install SSH public key for VNC user
   copy:
     content: "{{ public_ssh_key }}"
