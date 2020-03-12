@@ -7,7 +7,24 @@ Type=simple
 User={{ username }}
 PIDFile=/home/{{ username }}/.vnc/%H%i.pid
 ExecStartPre=/bin/sh -c "/usr/bin/vncserver -kill :%i > /dev/null 2>&1 || :"
-ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080
+# Guacamole prefers to connect to the VNC server with TLSVnc security,
+# however that resulted in frequent disconnections of the VNC session
+# with errors like the following (from /home/vnc/.vnc/ip-*:1.log):
+#    Connections: closed: 10.10.50.20::53496
+#                 (readTLS: (unknown error code) (384))
+#     TLS:         TLS session wasn't terminated gracefully
+# The root cause may be:
+# https://issues.apache.org/jira/browse/GUACAMOLE-414 However, the fix
+# for that issue has not yet made it's way to the official Guacamole
+# docker image, which is what we use.  Until that happens, our
+# workaround is to force the VNC server to not accept authentication
+# via TLS ("TLSVnc"), and only accept "VncAuth".  This is accomplished
+# by adding "-SecurityType VncAuth" as a startup parameter to
+# vncserver in the systemd service file.
+#
+# Reminder to get rid of this in the future:
+#   https://github.com/cisagov/pca-gophish-composition-packer/issues/2
+ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
 ExecStop=/usr/bin/vncserver -kill :%i
 
 [Install]
