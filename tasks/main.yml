@@ -1,11 +1,6 @@
 ---
 # tasks file for ansible-role-vnc-server
 
-- name: Create the VNC user
-  user:
-    name: "{{ username }}"
-    shell: /bin/bash
-
 - name: Load var file with package names based on the OS type
   include_vars: "{{ lookup('first_found', params) }}"
   vars:
@@ -30,6 +25,14 @@
   file:
     path: /etc/xdg/autostart/light-locker.desktop
     state: absent
+
+#
+# Create and configure the vnc user
+#
+- name: Create the VNC user
+  user:
+    name: "{{ username }}"
+    shell: /bin/bash
 
 - name: Create .vnc directory for VNC user
   file:
