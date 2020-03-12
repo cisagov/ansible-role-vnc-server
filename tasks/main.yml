@@ -61,31 +61,31 @@
 # Install an SSH keypair for the VNC user.  This will enable Guacamole
 # to perform file transfers to/from this instance.
 #
-# Note that Guacamole (v.1.0.0) currently only supports RSA keys.
+# Note that Guacamole currently only supports RSA keys.
 #
 - name: Install SSH public key for VNC user
   copy:
-    content: "{{ vnc_ssh_public_key }}"
-    dest: "/home/{{ vnc_username }}/.ssh/id_rsa.pub"
+    content: "{{ public_ssh_key }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa.pub"
     mode: 0644
-    owner: "{{ vnc_username }}"
-    group: "{{ vnc_username }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
   when: public_ssh_key|length > 0
 
 - name: Install SSH private key for VNC user
   copy:
-    content: "{{ vnc_ssh_private_key }}"
-    dest: "/home/{{ vnc_username }}/.ssh/id_rsa"
+    content: "{{ private_ssh_key }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa"
     mode: 0600
-    owner: "{{ vnc_username }}"
-    group: "{{ vnc_username }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
   no_log: true
   when: private_ssh_key|length > 0
 
 - name: Add VNC SSH public key as authorized key
   authorized_key:
-    user: "{{ vnc_username }}"
-    key: "{{ vnc_ssh_public_key }}"
+    user: "{{ username }}"
+    key: "{{ public_ssh_key }}"
   when:
     - public_ssh_key|length > 0
     - private_ssh_key|length > 0
