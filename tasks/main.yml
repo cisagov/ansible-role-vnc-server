@@ -23,8 +23,7 @@
 
 - name: Install TigerVNC server
   package:
-    name:
-      "{{ package_names }}"
+    name: "{{ vnc_package_names }}"
 
 # Does this go here?  Can this be generalized?
 - name: Disable screen locking
