@@ -49,7 +49,7 @@ ExecStartPre=/bin/sh -c "/usr/bin/vncserver -kill :%i > /dev/null 2>&1 || :"
 #   authentication.
 #
 # Reminder to get rid of this in the future:
-#   https://github.com/cisagov/ansible-role-vnc-server/issues/2
+#   https://github.com/cisagov/ansible-role-vnc-server/issues/5
 ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
 ExecStop=/usr/bin/vncserver -kill :%i
 
