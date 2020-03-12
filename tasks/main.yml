@@ -61,7 +61,8 @@
 # Install an SSH keypair for the VNC user.  This will enable Guacamole
 # to perform file transfers to/from this instance.
 #
-# Note that Guacamole currently only supports RSA keys.
+# Note that Guacamole (guacd, as of v.1.1.0) currently only supports
+# RSA keys.
 #
 - name: Install SSH public key for VNC user
   copy:
