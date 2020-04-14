@@ -1,0 +1,8 @@
+---
+# vars file for Kali
+
+# The TigerVNC package names.  These are identical to those for
+# Debian.
+vnc_package_names:
+  - tigervnc-standalone-server
+  - tigervnc-common
