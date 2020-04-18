@@ -1,6 +1,0 @@
----
-# vars file for Amazon Linux
-
-# The TigerVNC package names
-vnc_package_names:
-  - tigervnc-server
