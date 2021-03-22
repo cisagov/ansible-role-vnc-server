@@ -14,9 +14,9 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 def test_packages(host):
     """Test that the appropriate packages were installed."""
     distribution = host.system_info.distribution
-    if distribution == "amzn":
+    if distribution in ["amzn", "fedora"]:
         pkgs = ["tigervnc-server"]
-    elif distribution == "debian" or distribution == "kali":
+    elif distribution in ["debian", "kali", "ubuntu"]:
         pkgs = ["tigervnc-standalone-server", "tigervnc-common"]
     else:
         # We don't support this distribution
