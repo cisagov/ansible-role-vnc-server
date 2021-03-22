@@ -1,6 +1,4 @@
 ---
-# vars file for Debian
-
 # The TigerVNC package names
 vnc_package_names:
   - tigervnc-standalone-server

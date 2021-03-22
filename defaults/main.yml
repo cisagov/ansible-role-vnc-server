@@ -1,6 +1,4 @@
 ---
-# defaults file for ansible-role-vnc-server
-
 # The VNC username
 username: vnc
 # Generate a random VNC password and save it to /tmp
