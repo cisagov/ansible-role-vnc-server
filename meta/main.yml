@@ -3,8 +3,15 @@ galaxy_info:
   author: David Redmin
   description: Ansible role to install a VNC server
   company: CISA Cyber Assessments
+  galaxy_tags:
+    - vnc
   license: CC0
-  min_ansible_version: 2.0
+  # With the release of version 2.10, Ansible finally correctly
+  # identifies Kali Linux as being the Kali distribution of the Debian
+  # OS family.  This simplifies a lot of things for roles that support
+  # Kali Linux, so it makes sense to force the installation of Ansible
+  # 2.10 or newer.
+  min_ansible_version: 2.10
   platforms:
     - name: Amazon
       versions:
@@ -17,7 +24,14 @@ galaxy_info:
         # Debian Testing:
         # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
         - bullseye
-  galaxy_tags:
-    - vnc
+    - name: Fedora
+      versions:
+        - 32
+        - 33
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+  role_name: vnc_server
 
 dependencies: []

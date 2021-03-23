@@ -12,7 +12,14 @@ None.
 
 ## Role Variables ##
 
-None.
+* `password` - the password for the VNC user.  Defaults to a random
+  password.
+* `private_ssh_key` - the private ssh key for the VNC user.  By
+  default no such key is assigned to the VNC user.
+* `public_ssh_key` - the public ssh key for the VNC user.  By default
+  no such key is assigned to the VNC user.
+* `username` - the name of the VNC user, which will be created.
+  Defaults to "vnc".
 
 ## Dependencies ##
 
@@ -32,7 +39,7 @@ Here's how to use it in a playbook:
 
 ## Contributing ##
 
-We welcome contributions!  Please see [here](CONTRIBUTING.md) for
+We welcome contributions!  Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for
 details.
 
 ## License ##
