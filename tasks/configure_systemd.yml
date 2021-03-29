@@ -8,12 +8,8 @@
 - name: Systemd daemon-reload
   ansible.builtin.systemd:
     daemon_reload: true
-  when:
-    - ansible_service_mgr == "systemd"
 
 - name: Enable VNC systemd service
   ansible.builtin.systemd:
     name: "vncserver@1.service"
     enabled: true
-  when:
-    - ansible_service_mgr == "systemd"
