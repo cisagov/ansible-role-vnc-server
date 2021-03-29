@@ -11,7 +11,20 @@
         - "{{ role_path }}/vars"
 
 - name: Install VNC server
-  ansible.builtin.include_tasks: install.yml
+  # TODO: This dynamic jazz can be removed once version 1.11.0+dfsg-2
+  # of tigervnc-standalone-server becomes available in Debian Testing.
+  #
+  # See cisagov/ansible-role-vnc-server#15 for more details.
+  ansible.builtin.include_tasks: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - install_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml
+        - install_{{ ansible_distribution }}.yml
+        - install_{{ ansible_os_family }}.yml
+        - install.yml
+      paths:
+        - "{{ role_path }}/tasks"
 
 - name: Disable screen locking
   ansible.builtin.include_tasks: disable_screen_locking.yml
