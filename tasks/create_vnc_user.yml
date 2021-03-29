@@ -1,0 +1,73 @@
+---
+#
+# Create and configure the vnc user
+#
+- name: Create the VNC user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /bin/bash
+
+- name: Create .vnc directory for VNC user
+  ansible.builtin.file:
+    path: /home/{{ username }}/.vnc
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Set VNC password for VNC user
+  ansible.builtin.shell: |
+    set -o pipefail
+    echo {{ password }} | vncpasswd -f > /home/{{ username }}/.vnc/passwd
+  args:
+    executable: /bin/bash
+    creates: /home/{{ username }}/.vnc/passwd
+
+- name: Set correct permissions for VNC passwd file
+  ansible.builtin.file:
+    path: /home/{{ username }}/.vnc/passwd
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+
+#
+# Install an SSH keypair for the VNC user.  This will enable Guacamole
+# to perform file transfers to/from this instance.
+#
+# Note that Guacamole (guacd, as of v.1.1.0) currently only supports
+# RSA keys.
+#
+- name: Create .ssh directory for VNC user
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Install SSH public key for VNC user
+  ansible.builtin.copy:
+    content: "{{ public_ssh_key }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa.pub"
+    mode: 0644
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  when: public_ssh_key|length > 0
+
+- name: Install SSH private key for VNC user
+  ansible.builtin.copy:
+    content: "{{ private_ssh_key }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa"
+    mode: 0600
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  no_log: true
+  when: private_ssh_key|length > 0
+
+- name: Add VNC SSH public key as authorized key
+  ansible.builtin.authorized_key:
+    user: "{{ username }}"
+    key: "{{ public_ssh_key }}"
+  when:
+    - public_ssh_key|length > 0
+    - private_ssh_key|length > 0
