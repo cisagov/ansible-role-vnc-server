@@ -1,120 +1,36 @@
 ---
-# tasks file for ansible-role-vnc-server
-
 - name: Load var file with package names based on the OS type
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
-        # Add regex_replace() filters to remove spaces and
-        # slashes. This allows the OS family/distribution for Kali,
-        # "Kali GNU/Linux", to be easily mapped to a vars file.
-        - "{{ ansible_distribution | regex_replace('[ /]', '_') }}.yml"
-        - "{{ ansible_os_family | regex_replace('[ /]', '_') }}.yml"
+        - "{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
       paths:
         - "{{ role_path }}/vars"
 
-- name: Install TigerVNC server
-  package:
-    name: "{{ vnc_package_names }}"
+- name: Install VNC server
+  # TODO: This dynamic jazz can be removed once version 1.11.0+dfsg-2
+  # of tigervnc-standalone-server becomes available in Debian Testing.
+  #
+  # See cisagov/ansible-role-vnc-server#15 for more details.
+  ansible.builtin.include_tasks: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - install_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml
+        - install_{{ ansible_distribution }}.yml
+        - install_{{ ansible_os_family }}.yml
+        - install.yml
+      paths:
+        - "{{ role_path }}/tasks"
 
-# Does this go here?  Can this be generalized?
 - name: Disable screen locking
-  file:
-    path: /etc/xdg/autostart/light-locker.desktop
-    state: absent
+  ansible.builtin.include_tasks: disable_screen_locking.yml
 
-#
-# Create and configure the vnc user
-#
-- name: Create the VNC user
-  user:
-    name: "{{ username }}"
-    shell: /bin/bash
+- name: Create vnc user
+  ansible.builtin.include_tasks: create_vnc_user.yml
 
-- name: Create .vnc directory for VNC user
-  file:
-    path: /home/{{ username }}/.vnc
-    state: directory
-    mode: 0755
-    owner: "{{ username }}"
-    group: "{{ username }}"
-
-- name: Set VNC password for VNC user
-  shell: |
-    set -o pipefail
-    echo {{ password }} | vncpasswd -f > /home/{{ username }}/.vnc/passwd
-  args:
-    executable: /bin/bash
-    creates: /home/{{ username }}/.vnc/passwd
-
-- name: Set correct permissions for VNC passwd file
-  file:
-    path: /home/{{ username }}/.vnc/passwd
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0600
-
-#
-# Install an SSH keypair for the VNC user.  This will enable Guacamole
-# to perform file transfers to/from this instance.
-#
-# Note that Guacamole (guacd, as of v.1.1.0) currently only supports
-# RSA keys.
-#
-- name: Create .ssh directory for VNC user
-  file:
-    path: "/home/{{ username }}/.ssh"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0755
-
-- name: Install SSH public key for VNC user
-  copy:
-    content: "{{ public_ssh_key }}"
-    dest: "/home/{{ username }}/.ssh/id_rsa.pub"
-    mode: 0644
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  when: public_ssh_key|length > 0
-
-- name: Install SSH private key for VNC user
-  copy:
-    content: "{{ private_ssh_key }}"
-    dest: "/home/{{ username }}/.ssh/id_rsa"
-    mode: 0600
-    owner: "{{ username }}"
-    group: "{{ username }}"
-  no_log: true
-  when: private_ssh_key|length > 0
-
-- name: Add VNC SSH public key as authorized key
-  authorized_key:
-    user: "{{ username }}"
-    key: "{{ public_ssh_key }}"
-  when:
-    - public_ssh_key|length > 0
-    - private_ssh_key|length > 0
-
-#
-# Set up VNC systemd service
-#
-- name: Set up VNC as a systemd service
-  template:
-    src: vncserver@.service
-    dest: /lib/systemd/system/
-    mode: 0644
-
-- name: Systemd daemon-reload
-  systemd:
-    daemon_reload: true
-  when:
-    - ansible_service_mgr == "systemd"
-
-- name: Enable VNC systemd service
-  systemd:
-    name: "vncserver@1.service"
-    enabled: true
-  when:
-    - ansible_service_mgr == "systemd"
+- name: Configure SystemD
+  ansible.builtin.include_tasks: configure_systemd.yml
