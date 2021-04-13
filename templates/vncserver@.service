@@ -1,6 +1,9 @@
 [Unit]
 Description=Remote desktop service (VNC)
 After=syslog.target network.target
+# If we try to restart five times in 30 seconds, just give up.
+StartLimitIntervalSec=30s
+StartLimitBurst=5
 
 [Service]
 Type=simple
