@@ -4,7 +4,7 @@
     src: vncserver@.service
     dest: /lib/systemd/system/
     mode: 0644
-    validate: /usr/bin/systemd-analyze validate %s
+    validate: /usr/bin/systemd-analyze verify %s
 
 - name: Systemd daemon-reload
   ansible.builtin.systemd:
