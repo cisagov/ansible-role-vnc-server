@@ -1,6 +1,9 @@
 [Unit]
 Description=Remote desktop service (VNC)
 After=syslog.target network.target
+# If we try to restart five times in 30 seconds, just give up.
+StartLimitIntervalSec=30s
+StartLimitBurst=5
 
 [Service]
 Type=simple
@@ -52,6 +55,13 @@ ExecStartPre=/bin/sh -c "/usr/bin/vncserver -kill :%i > /dev/null 2>&1 || :"
 #   https://github.com/cisagov/ansible-role-vnc-server/issues/5
 ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
 ExecStop=/usr/bin/vncserver -kill :%i
+# Sometimes BurpSuitePro runs out of memory and is killed by the
+# kernel, bringing down this service in the process.  This doesn't fix
+# that issue, but it does automatically restart the service so that
+# the assessors can continue on without needing anyone else to intervene.
+Restart=on-failure
+# Wait a few seconds to let the dust settle before restarting.
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

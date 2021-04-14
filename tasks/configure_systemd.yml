@@ -4,6 +4,10 @@
     src: vncserver@.service
     dest: /lib/systemd/system/
     mode: 0644
+    # It would be great to use systemd-analyze verify here, but that
+    # won't work.  See, for instance, this GitHub issue comment:
+    # https://github.com/ansible/ansible/issues/19243#issuecomment-266508074
+    # validate: /usr/bin/systemd-analyze verify %s
 
 - name: Systemd daemon-reload
   ansible.builtin.systemd:
