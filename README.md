@@ -21,6 +21,13 @@ None.
 - `username` - the name of the VNC user, which will be created.
   Defaults to "vnc".
 
+<!--
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| optional_variable | Describe its purpose. | `default_value` | No |
+| required_variable | Describe its purpose. | n/a | Yes |
+-->
+
 ## Dependencies ##
 
 None.
