@@ -12,21 +12,12 @@ None.
 
 ## Role Variables ##
 
-- `password` - the password for the VNC user.  Defaults to a random
-  password.
-- `private_ssh_key` - the private ssh key for the VNC user.  By
-  default no such key is assigned to the VNC user.
-- `public_ssh_key` - the public ssh key for the VNC user.  By default
-  no such key is assigned to the VNC user.
-- `username` - the name of the VNC user, which will be created.
-  Defaults to "vnc".
-
-<!--
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| optional_variable | Describe its purpose. | `default_value` | No |
-| required_variable | Describe its purpose. | n/a | Yes |
--->
+| password | The password for the VNC user. | Defaults to a random value. | No |
+| private\_ssh\_key | The private ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
+| public\_ssh\_key | The public ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
+| username | The name of the VNC user, which will be created. | `vnc` | No |
 
 ## Dependencies ##
 
