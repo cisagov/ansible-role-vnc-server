@@ -4,8 +4,11 @@
 #
 - name: Create the VNC user
   ansible.builtin.user:
+    append: yes
+    groups: "{{ user_groups | default(omit) }}"
     name: "{{ username }}"
     shell: /bin/bash
+    uid: "{{ user_uid | default(omit) }}"
 
 - name: Create .vnc directory for VNC user
   ansible.builtin.file:

@@ -18,6 +18,8 @@ None.
 | private\_ssh\_key | The private ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
 | public\_ssh\_key | The public ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
 | username | The name of the VNC user, which will be created. | `vnc` | No |
+| user_groups | A list of additional groups to which the VNC user should belong. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
+| user_uid | The UID to use for the VNC user. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
 
 ## Dependencies ##
 
