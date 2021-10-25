@@ -1,5 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: ansible-role-vnc-server
+  tasks:
+    - name: Include ansible-role-vnc-server
+      ansible.builtin.include_role:
+        name: ansible-role-vnc-server
