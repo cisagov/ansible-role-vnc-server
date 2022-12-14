@@ -1,8 +1,7 @@
 # ansible-role-vnc-server #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-vnc-server/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-vnc-server/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/ansible-role-vnc-server.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-vnc-server/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/ansible-role-vnc-server.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-vnc-server/context:python)
+[![CodeQL](https://github.com/cisagov/ansible-role-vnc-server/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-vnc-server/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing a VNC server.
 
@@ -33,8 +32,10 @@ Here's how to use it in a playbook:
 - hosts: all
   become: yes
   become_method: sudo
-  roles:
-    - vnc_server
+  tasks:
+    - name: Install VNC server
+      ansible.builtin.include_role:
+        name: vnc_server
 ```
 
 ## Contributing ##
