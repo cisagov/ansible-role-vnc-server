@@ -37,10 +37,6 @@
 # Install an SSH keypair for the VNC user.  This will enable Guacamole
 # to perform file transfers to/from this instance.
 #
-# Note that Guacamole (guacd, as of v.1.3.0) currently only supports
-# RSA and DSA keys.
-# See https://github.com/apache/guacamole-server/blob/b2ae2fdf003a6854ac42877ce0fce8e88ceb038a/src/common-ssh/key.c#L52-L141
-#
 - name: Create .ssh directory for VNC user
   ansible.builtin.file:
     path: "/home/{{ username }}/.ssh"
@@ -52,7 +48,7 @@
 - name: Install SSH public key for VNC user
   ansible.builtin.copy:
     content: "{{ public_ssh_key }}"
-    dest: "/home/{{ username }}/.ssh/id_rsa.pub"
+    dest: "/home/{{ username }}/.ssh/id_{{ ssh_key_type | lower }}.pub"
     mode: 0644
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -61,7 +57,7 @@
 - name: Install SSH private key for VNC user
   ansible.builtin.copy:
     content: "{{ private_ssh_key }}"
-    dest: "/home/{{ username }}/.ssh/id_rsa"
+    dest: "/home/{{ username }}/.ssh/id_{{ ssh_key_type | lower }}"
     mode: 0600
     owner: "{{ username }}"
     group: "{{ username }}"

@@ -5,5 +5,10 @@ password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"
 private_ssh_key: ""
 # Public SSH key for VNC user
 public_ssh_key: ""
+# Case-independent SSH key type
+#
+# Valid values are the key types supported by SSH: DSA, ECDSA,
+# ECDSA_SK, ED25519, ED25519_SK, and RSA.
+ssh_key_type: ed25519
 # The VNC username
 username: vnc
