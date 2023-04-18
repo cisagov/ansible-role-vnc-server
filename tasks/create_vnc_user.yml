@@ -4,7 +4,10 @@
 #
 - name: Create the VNC user
   ansible.builtin.user:
-    append: yes
+    # Ansible will start treating append: true and groups omitted as
+    # an error in version 2.14, so we need append: true only if groups
+    # is nonempty.
+    append: "{{ (user_groups | default([]) | length > 0) | bool }}"
     groups: "{{ user_groups | default(omit) }}"
     name: "{{ username }}"
     shell: /bin/bash
