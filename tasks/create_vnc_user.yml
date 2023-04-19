@@ -40,6 +40,15 @@
 # to perform file transfers to/from this instance.
 - name: Install SSH keys for VNC user
   block:
+    - name: Validate value of ssh_key_type
+      ansible.builtin.assert:
+        fail_msg: >
+          "{{ ssh_key_type }} is not a valid value for the SSH key
+          type.  Valid values are: DSA, ECDSA, ECDSA_SK, ED25519,
+          ED25519_SK, or RSA."
+        that:
+          - (ssh_key_type | lower) in ["dsa", "ecdsa", "ecdsa_sk", "ed25519", "ed25519_sk", "rsa"]
+
     - name: Create .ssh directory for VNC user
       ansible.builtin.file:
         path: "/home/{{ username }}/.ssh"
