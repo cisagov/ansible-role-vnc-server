@@ -15,9 +15,10 @@ galaxy_info:
   min_ansible_version: "2.10"
   namespace: cisagov
   platforms:
-    - name: Amazon Linux 2023
-      versions:
-        - any
+    # Amazon Linux 2023 does not offer a TigerVNC package.
+    # - name: Amazon Linux 2023
+    #   versions:
+    #     - any
     - name: Debian
       versions:
         - buster
