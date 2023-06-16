@@ -1,6 +1,6 @@
 ---
 # Generate a random VNC password and save it to /tmp
-vnc_server_password: "{{ lookup('vnc_server_password', '/tmp/vnc_password.txt') }}"
+vnc_server_password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"
 # Private SSH key for VNC user
 vnc_server_private_ssh_key: ""
 # Public SSH key for VNC user
