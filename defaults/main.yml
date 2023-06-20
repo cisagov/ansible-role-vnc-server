@@ -1,14 +1,14 @@
 ---
 # Generate a random VNC password and save it to /tmp
-password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"
+vnc_server_password: "{{ lookup('password', '/tmp/vnc_password.txt') }}"
 # Private SSH key for VNC user
-private_ssh_key: ""
+vnc_server_private_ssh_key: ""
 # Public SSH key for VNC user
-public_ssh_key: ""
+vnc_server_public_ssh_key: ""
 # Case-independent SSH key type
 #
 # Valid values are the key types supported by SSH: DSA, ECDSA,
 # ECDSA_SK, ED25519, ED25519_SK, and RSA.
-ssh_key_type: ed25519
+vnc_server_ssh_key_type: ed25519
 # The VNC username
-username: vnc
+vnc_server_username: vnc

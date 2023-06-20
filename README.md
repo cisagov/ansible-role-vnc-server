@@ -13,13 +13,13 @@ None.
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| password | The password for the VNC user. | Defaults to a random value. | No |
-| private\_ssh\_key | The private ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
-| public\_ssh\_key | The public ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
-| ssh\_key\_type | The case-independent SSH key type. Valid values are the key types supported by SSH:  DSA, ECDSA, ECDSA_SK, ED25519, ED25519_SK, and RSA. | `ed25519` | No |
-| username | The name of the VNC user, which will be created. | `vnc` | No |
-| user\_groups | A list of additional groups to which the VNC user should belong. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
-| user\_uid | The UID to use for the VNC user. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
+| vnc\_server\_password | The password for the VNC user. | Defaults to a random value. | No |
+| vnc\_server\_private\_ssh\_key | The private ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
+| vnc\_server\_public\_ssh\_key | The public ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
+| vnc\_server\_ssh\_key\_type | The case-independent SSH key type. Valid values are the key types supported by SSH:  DSA, ECDSA, ECDSA_SK, ED25519, ED25519_SK, and RSA. | `ed25519` | No |
+| vnc\_server\_username | The name of the VNC user, which will be created. | `vnc` | No |
+| vnc\_server\_user\_groups | A list of additional groups to which the VNC user should belong. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
+| vnc\_server\_user\_uid | The UID to use for the VNC user. | [Omitted](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#making-variables-optional) | No |
 
 ## Dependencies ##
 
@@ -59,4 +59,4 @@ with this waiver of copyright interest.
 
 ## Author Information ##
 
-David Redmin - <david.redmin@trio.dhs.gov>
+David Redmin - <david.redmin@gwe.cisa.dhs.gov>
