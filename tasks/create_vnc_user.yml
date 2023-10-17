@@ -77,7 +77,7 @@
       when: vnc_server_private_ssh_key|length > 0
 
     - name: Add VNC SSH public key as authorized key
-      ansible.builtin.authorized_key:
+      ansible.posix.authorized_key:
         user: "{{ vnc_server_username }}"
         key: "{{ vnc_server_public_ssh_key }}"
       when:
