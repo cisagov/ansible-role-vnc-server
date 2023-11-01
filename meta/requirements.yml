@@ -9,9 +9,4 @@
 # both sets of dependencies must be lists. :(
 #
 # See also cisagov/skeleton-ansible-role#153.
-collections:
-  - name: ansible.posix
-    type: galaxy
-    # We require ansible.posix.authorized_keys, which debuted in
-    # version 1.0.0 of ansible.posix.
-    version: ">=1.0.0"
+[]
