@@ -9,11 +9,8 @@
     # https://github.com/ansible/ansible/issues/19243#issuecomment-266508074
     # validate: /usr/bin/systemd-analyze verify %s
 
-- name: Systemd daemon-reload
-  ansible.builtin.systemd:
-    daemon_reload: true
-
 - name: Enable VNC systemd service
-  ansible.builtin.systemd:
-    name: "vncserver@1.service"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
     enabled: true
+    name: "vncserver@1.service"
