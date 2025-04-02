@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=xfconf-query --channel xfce4-screensaver --create --property /saver/enabled --set false --type bool
+Name=Disable xfce4-screensaver
+Type=Application

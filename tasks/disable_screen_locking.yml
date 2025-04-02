@@ -1,6 +1,26 @@
 ---
-# Should this live inside this role?  Can this be generalized?
-- name: Disable screen locking
+- name: Ensure the vnc user's autostart directory exists
   ansible.builtin.file:
-    path: /etc/xdg/autostart/light-locker.desktop
-    state: absent
+    group: "{{ vnc_server_username }}"
+    mode: u=rwx,g=rx,o=rx
+    owner: "{{ vnc_server_username }}"
+    path: /home/{{ vnc_server_username }}/.config/autostart
+    state: directory
+
+- name: Install package that provides desktop-file-validate
+  ansible.builtin.package:
+    name:
+      - desktop-file-utils
+
+- name: Add autostart items to disable screen locking and DPMS
+  ansible.builtin.copy:
+    dest: /home/{{ vnc_server_username }}/.config/autostart/{{ item }}
+    group: "{{ vnc_server_username }}"
+    mode: u=rw,g=r,o=r
+    owner: "{{ vnc_server_username }}"
+    src: "{{ item }}"
+    validate: desktop-file-validate %s
+  loop:
+    - xfce4-power-manager-disable-dpms.desktop
+    - xfce4-screensaver-disable.desktop
+    - xfce4-screensaver-disable-screen-locking.desktop

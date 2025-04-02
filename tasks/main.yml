@@ -13,11 +13,11 @@
 - name: Install VNC server
   ansible.builtin.include_tasks: install.yml
 
-- name: Disable screen locking
-  ansible.builtin.include_tasks: disable_screen_locking.yml
-
 - name: Create vnc user
   ansible.builtin.include_tasks: create_vnc_user.yml
 
-- name: Configure SystemD
+- name: Disable screen locking
+  ansible.builtin.include_tasks: disable_screen_locking.yml
+
+- name: Configure systemd
   ansible.builtin.include_tasks: configure_systemd.yml
