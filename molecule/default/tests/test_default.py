@@ -31,6 +31,7 @@ def test_packages(host):
 @pytest.mark.parametrize(
     "f",
     [
+        "/home/vnc/.config/autostart/light-locker.desktop",
         "/home/vnc/.config/autostart/xfce4-power-manager-disable-dpms.desktop",
         "/home/vnc/.config/autostart/xfce4-screensaver-disable.desktop",
         "/home/vnc/.config/autostart/xfce4-screensaver-disable-screen-locking.desktop",

@@ -1,0 +1,7 @@
+# This desktop entry file overrides the default present in
+# /etc/xdg/autostart, if it exists.  This way the light-locker screen
+# locker is not started.
+[Desktop Entry]
+Hidden=true
+Name=Screen Locker
+Type=Application

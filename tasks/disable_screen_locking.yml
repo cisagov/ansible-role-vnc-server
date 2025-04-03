@@ -21,6 +21,7 @@
     src: "{{ item }}"
     validate: desktop-file-validate %s
   loop:
+    - light-locker.desktop
     - xfce4-power-manager-disable-dpms.desktop
     - xfce4-screensaver-disable.desktop
     - xfce4-screensaver-disable-screen-locking.desktop
