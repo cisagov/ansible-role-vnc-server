@@ -54,3 +54,11 @@ def test_autostart_files_exist(host, f):
     assert host.file(f).user == "vnc"
     assert host.file(f).group == "vnc"
     assert host.file(f).mode == 0o644
+
+
+def test_systemd_service_enabled(host):
+    """Test that the VNC systemd service is valid and enabled."""
+    service = host.service("vncserver@1")
+    assert service.is_valid
+    assert service.is_enabled
+    assert not service.is_masked
