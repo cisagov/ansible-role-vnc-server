@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=xfconf-query --channel xfce4-power-manager --create --property /xfce4-power-manager/dpms-enabled --set false --type bool
+Name=Disable xfce4-power-manager DPMS
+Type=Application
