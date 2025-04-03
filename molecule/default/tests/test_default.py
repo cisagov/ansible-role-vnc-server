@@ -38,5 +38,9 @@ def test_packages(host):
     ],
 )
 def test_autostart_files_exist(host, f):
-    """Test that the file exists."""
+    """Test that the file exists and has the expected ownership and permissions."""
     assert host.file(f).exists
+    assert host.file(f).is_file
+    assert host.file(f).user == "vnc"
+    assert host.file(f).group == "vnc"
+    assert host.file(f).mode == 0o644
