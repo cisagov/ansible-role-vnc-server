@@ -28,6 +28,16 @@ def test_packages(host):
     assert all(installed)
 
 
+def test_autostart_dir_exists(host):
+    """Test that the directory exists and has the expected ownership and permissions."""
+    f = host.file("/home/vnc/.config/autostart")
+    assert f.exists
+    assert f.is_directory
+    assert f.user == "vnc"
+    assert f.group == "vnc"
+    assert f.mode == 0o755
+
+
 @pytest.mark.parametrize(
     "f",
     [
