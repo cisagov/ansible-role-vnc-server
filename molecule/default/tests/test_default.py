@@ -16,9 +16,9 @@ def test_packages(host):
     """Test that the appropriate packages were installed."""
     distribution = host.system_info.distribution
     if distribution in ["amzn", "fedora"]:
-        pkgs = ["tigervnc-server"]
+        pkgs = ["desktop-file-utils", "tigervnc-server"]
     elif distribution in ["debian", "kali", "ubuntu"]:
-        pkgs = ["tigervnc-standalone-server", "tigervnc-common"]
+        pkgs = ["desktop-file-utils", "tigervnc-standalone-server", "tigervnc-common"]
     else:
         # We don't support this distribution
         assert False, f"Unsupported distribution {distribution}"
