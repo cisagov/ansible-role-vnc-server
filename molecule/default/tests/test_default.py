@@ -62,3 +62,37 @@ def test_systemd_service_enabled(host):
     assert service.is_valid
     assert service.is_enabled
     assert not service.is_masked
+
+
+def test_vnc_user(host):
+    """Test that the VNC user was created."""
+    user = host.user("vnc")
+    assert user.exists
+    assert user.shell == "/bin/bash"
+
+
+def test_vnc_user_config(host):
+    """Test that config files for the VNC user were created."""
+    # Test that the ~vnc/.vnc directory was created.
+    f = host.file("/home/vnc/.vnc")
+    assert f.exists
+    assert f.is_directory
+    assert f.user == "vnc"
+    assert f.group == "vnc"
+    assert f.mode == 0o755
+
+    # Test that the ~vnc/.vnc/passwd file was created.
+    f = host.file("/home/vnc/.vnc/passwd")
+    assert f.exists
+    assert f.is_file
+    assert f.user == "vnc"
+    assert f.group == "vnc"
+    assert f.mode == 0o600
+
+    # Test that the ~vnc/.ssh directory was created.
+    f = host.file("/home/vnc/.ssh")
+    assert f.exists
+    assert f.is_directory
+    assert f.user == "vnc"
+    assert f.group == "vnc"
+    assert f.mode == 0o755
