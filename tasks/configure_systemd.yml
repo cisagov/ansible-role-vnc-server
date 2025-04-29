@@ -13,4 +13,4 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
     enabled: true
-    name: "vncserver@1.service"
+    name: vncserver@1.service

@@ -54,13 +54,13 @@
         group: "{{ vnc_server_username }}"
         mode: u=rwx,g=rx,o=rx
         owner: "{{ vnc_server_username }}"
-        path: "/home/{{ vnc_server_username }}/.ssh"
+        path: /home/{{ vnc_server_username }}/.ssh
         state: directory
 
     - name: Install SSH public key for VNC user
       ansible.builtin.copy:
         content: "{{ vnc_server_public_ssh_key }}"
-        dest: "/home/{{ vnc_server_username }}/.ssh/id_{{ vnc_server_ssh_key_type | lower }}.pub"
+        dest: /home/{{ vnc_server_username }}/.ssh/id_{{ vnc_server_ssh_key_type | lower }}.pub
         mode: u=rw,g=r,o=r
         owner: "{{ vnc_server_username }}"
         group: "{{ vnc_server_username }}"
@@ -69,7 +69,7 @@
     - name: Install SSH private key for VNC user
       ansible.builtin.copy:
         content: "{{ vnc_server_private_ssh_key }}"
-        dest: "/home/{{ vnc_server_username }}/.ssh/id_{{ vnc_server_ssh_key_type | lower }}"
+        dest: /home/{{ vnc_server_username }}/.ssh/id_{{ vnc_server_ssh_key_type | lower }}
         group: "{{ vnc_server_username }}"
         mode: u=rw,g=,o=
         owner: "{{ vnc_server_username }}"
