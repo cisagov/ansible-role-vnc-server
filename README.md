@@ -1,6 +1,7 @@
 # ansible-role-vnc-server #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-vnc-server/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-vnc-server/actions)
+[![License](https://img.shields.io/github/license/cisagov/ansible-role-vnc-server)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/ansible-role-vnc-server/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-vnc-server/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing a VNC server.
