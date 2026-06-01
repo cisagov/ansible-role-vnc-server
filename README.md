@@ -13,7 +13,7 @@ None.
 ## Role Variables ##
 
 | Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
+| -------- | ----------- | ------- | -------- |
 | vnc\_server\_password | The password for the VNC user. | Defaults to a random value. | No |
 | vnc\_server\_private\_ssh\_key | The private ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
 | vnc\_server\_public\_ssh\_key | The public ssh key for the VNC user. | By default no such key is assigned to the VNC user. | No |
