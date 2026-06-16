@@ -53,7 +53,12 @@ ExecStartPre=/bin/sh -c "/usr/bin/vncserver -kill :%i > /dev/null 2>&1 || :"
 #
 # Reminder to get rid of this in the future:
 #   https://github.com/cisagov/ansible-role-vnc-server/issues/5
-ExecStart=/usr/bin/vncserver :%i -localhost no -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
+#
+#
+# The -AcceptSetDesktopSize=0 option is present to stop the VNC
+# desktop from resizing depending on the browser window's geometry.
+# See cisagov/cool-system#243 for more details.
+ExecStart=/usr/bin/vncserver :%i -localhost no -AcceptSetDesktopSize=0 -alwaysshared -fg -geometry 1920x1080 -SecurityTypes VncAuth
 ExecStop=/usr/bin/vncserver -kill :%i
 # Sometimes BurpSuitePro runs out of memory and is killed by the
 # kernel, bringing down this service in the process.  This doesn't fix
